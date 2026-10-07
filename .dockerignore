@@ -1,0 +1,14 @@
+.git
+**/node_modules
+**/bin
+**/obj
+frontend/dist
+.env
+.env.*
+.data
+output
+*.pem
+*.key
+*.pfx
+*.dump
+*.sql.gz

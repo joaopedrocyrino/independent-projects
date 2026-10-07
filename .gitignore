@@ -1,0 +1,16 @@
+**/bin/
+**/obj/
+**/node_modules/
+frontend/dist/
+.env
+.env.*
+!.env.example
+!.env.production.example
+.data/
+output/
+*.pem
+*.key
+*.pfx
+*.sql.gz
+*.dump
+.DS_Store

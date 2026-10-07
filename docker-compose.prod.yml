@@ -1,0 +1,72 @@
+name: projects
+services:
+  postgres:
+    image: postgres:17-alpine
+    command: [postgres, -c, shared_buffers=32MB, -c, max_connections=30]
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-projects}
+      POSTGRES_DB: ${POSTGRES_DB:-projects}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Missing server .env}
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    networks:
+      private:
+        aliases: [projects-db]
+    mem_limit: ${POSTGRES_MEMORY_LIMIT:-128m}
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    logging: &logging
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+    restart: unless-stopped
+  migrate:
+    profiles: [deploy]
+    image: ${APP_IMAGE:?Deploy an immutable image digest}
+    command: [--migrate]
+    environment: &app-env
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Database: Host=projects-db;Database=${POSTGRES_DB:-projects};Username=${POSTGRES_USER:-projects};Password=${POSTGRES_PASSWORD:?Missing server .env};Maximum Pool Size=10
+      Admin__Email: ${ADMIN_EMAIL:?Missing server .env}
+      Admin__Password: ${ADMIN_PASSWORD:?Missing server .env}
+      Storage__Path: /var/lib/projects/media
+      DataProtection__Path: /var/lib/projects/keys
+      Security__TrustedProxyIp: ${TRUSTED_PROXY_IP:?Deployment discovers Caddy IP}
+      AllowedHosts: ${APP_HOSTNAME:-projects.joaocyrino.com};localhost;127.0.0.1
+      DOTNET_gcServer: '0'
+      DOTNET_GCHeapHardLimitPercent: '70'
+    volumes: &app-volumes [media_data:/var/lib/projects/media, protection_keys:/var/lib/projects/keys]
+    networks: [private]
+    mem_limit: ${APP_MEMORY_LIMIT:-256m}
+    depends_on:
+      postgres: {condition: service_healthy}
+  app:
+    image: ${APP_IMAGE:?Deploy an immutable image digest}
+    environment: *app-env
+    volumes: *app-volumes
+    networks: [private, proxy]
+    expose: ["8080"]
+    labels:
+      caddy: ${APP_HOSTNAME:-projects.joaocyrino.com}
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+      caddy_ingress_network: proxy
+    mem_limit: ${APP_MEMORY_LIMIT:-256m}
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    read_only: true
+    tmpfs: ["/tmp:size=134217728,mode=1777"]
+    logging: *logging
+    depends_on:
+      postgres: {condition: service_healthy}
+    restart: unless-stopped
+networks:
+  private:
+    internal: true
+  proxy:
+    name: proxy
+    external: true
+volumes:
+  postgres_data:
+  media_data:
+  protection_keys:

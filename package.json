@@ -1,0 +1,20 @@
+{
+  "name": "projects-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "python3 scripts/dev.py",
+    "build": "npm run build --prefix frontend && dotnet build Projects.slnx -c Release",
+    "test": "dotnet test --solution Projects.slnx && node --test scripts/deployment.test.mjs",
+    "test:integration": "node scripts/integration.mjs",
+    "test:browser": "node scripts/browser.mjs",
+    "db:migrate": "docker compose --profile tools run --rm migrate",
+    "db:seed": "docker compose --profile tools run --rm seed",
+    "install:web": "npm ci --prefix frontend",
+    "format": "prettier --write frontend/src frontend/vite.config.ts frontend/index.html frontend/*.json scripts/*.mjs *.json"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "prettier": "^3.6.2"
+  }
+}

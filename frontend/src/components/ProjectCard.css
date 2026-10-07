@@ -1,0 +1,105 @@
+.project-card {
+  background: white;
+  border: 1px solid #e8eaf3;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px #25244703;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px #25244709;
+}
+.project-image {
+  height: 220px;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+.project-image > img,
+.project-image > video {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.featured {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 9px;
+  font-weight: 650;
+  padding: 6px 9px;
+  border: 1px solid #ffffffa0;
+  border-radius: 5px;
+  background: #ffffffbb;
+  backdrop-filter: blur(12px);
+  color: #505970;
+}
+.image-arrow {
+  position: absolute;
+  right: 13px;
+  bottom: 13px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  background: #ffffffbb;
+  border-radius: 50%;
+  backdrop-filter: blur(6px);
+  color: #60677e;
+}
+.project-copy {
+  padding: 21px;
+}
+.project-copy > .eyebrow {
+  font-size: 9px;
+  color: #8a91a5;
+}
+.project-title h2 {
+  font-size: 20px;
+  margin: 7px 0 8px;
+  letter-spacing: -0.035em;
+}
+.project-copy > p {
+  font-size: 12px;
+  color: #858c9f;
+  margin-bottom: 18px;
+  min-height: 41px;
+}
+.card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #eef0f6;
+  padding-top: 15px;
+  margin-top: 20px;
+}
+.card-bottom > a {
+  font-size: 10px;
+  font-weight: 650;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #5d52c4;
+}
+.card-bottom > div {
+  display: flex;
+  gap: 11px;
+  color: #9399ac;
+}
+.card-bottom > div a {
+  display: grid;
+  place-items: center;
+  min-width: 26px;
+  min-height: 26px;
+}
+@media (min-width: 768px) {
+  .project-image {
+    height: 205px;
+  }
+}

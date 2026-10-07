@@ -1,0 +1,247 @@
+.login-screen {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 25px;
+  background: radial-gradient(ellipse at 50% 25%, #edebff, transparent 65%);
+}
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--accent);
+  font-weight: 650;
+  font-size: 19px;
+  margin-bottom: 30px;
+}
+.login-card {
+  background: #fff;
+  border: 1px solid #e8e6f3;
+  border-radius: 17px;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 15px 50px #41416406;
+  margin-bottom: 22px;
+}
+.login-card h1 {
+  font-size: 31px;
+  margin: 10px 0;
+}
+.login-card > p {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 25px;
+}
+.login-card form {
+  display: grid;
+  gap: 18px;
+}
+.admin-header {
+  height: 76px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background: #fff;
+}
+.admin-header nav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.admin-header nav > a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #858ca0;
+}
+.admin-header nav > a span {
+  display: none;
+}
+.workspace-badge {
+  font-size: 9px;
+  border: 1px solid #e9e5ff;
+  background: #f5f3ff;
+  color: #9b8fd3;
+  padding: 4px 7px;
+  border-radius: 5px;
+  letter-spacing: 0;
+  margin-left: 5px;
+}
+.admin-main {
+  max-width: 1160px;
+  padding: 30px 20px 55px;
+  margin: auto;
+  min-height: calc(100dvh - 140px);
+}
+.admin-page-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  justify-content: space-between;
+  margin-bottom: 27px;
+  flex-wrap: wrap;
+}
+.admin-page-heading h1 {
+  font-size: 29px;
+  margin: 9px 0;
+}
+.admin-page-heading p {
+  font-size: 12px;
+  color: #8b93a6;
+  margin-bottom: 0;
+}
+.admin-page-heading > .button {
+  margin-top: 8px;
+}
+.admin-toolbar {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 23px;
+}
+.admin-toolbar .search {
+  width: 100%;
+}
+.admin-tabs {
+  display: flex;
+  gap: 5px;
+}
+.admin-tabs > button {
+  padding: 8px 11px;
+  font-size: 11px;
+  border: 0;
+  background: transparent;
+  color: #959baf;
+  border-radius: 7px;
+}
+.admin-tabs > button.active {
+  background: #edeafd;
+  color: #7767c8;
+}
+.admin-project-grid {
+  display: grid;
+  gap: 14px;
+}
+.admin-project {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  transition: border 0.15s;
+}
+.admin-project:hover {
+  border-color: #b6acf8;
+}
+.admin-thumb {
+  width: 90px;
+  height: 90px;
+  border-radius: 9px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.admin-thumb .art-symbol {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}
+.admin-thumb .art-symbol svg {
+  width: 22px;
+}
+.admin-thumb .artwork > span,
+.admin-thumb .artwork > small {
+  display: none;
+}
+.admin-thumb img,
+.admin-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.admin-project > div:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+.admin-project h2 {
+  font-size: 17px;
+  margin: 8px 0 5px;
+}
+.admin-project p {
+  font-size: 11px;
+  color: #8b94a8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+  margin-bottom: 5px;
+}
+.admin-project small {
+  font-size: 9px;
+}
+.admin-project > svg {
+  color: #b5bad0;
+  flex-shrink: 0;
+}
+.admin-footer {
+  border-top: 1px solid var(--border);
+  padding: 20px;
+  text-align: center;
+  color: #9aa1b3;
+  font-size: 10px;
+}
+.settings-card {
+  max-width: 520px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 25px;
+}
+.settings-card h1 {
+  font-size: 27px;
+}
+.settings-card > p {
+  font-size: 12px;
+  color: var(--muted);
+}
+.settings-card form {
+  display: grid;
+  gap: 20px;
+}
+@media (min-width: 768px) {
+  .admin-header {
+    padding: 0 40px;
+  }
+  .admin-header nav > a span {
+    display: inline;
+  }
+  .admin-main {
+    padding: 45px 40px;
+  }
+  .admin-page-heading h1 {
+    font-size: 34px;
+  }
+  .admin-toolbar .search {
+    width: 350px;
+  }
+  .admin-tabs {
+    margin-left: auto;
+  }
+  .admin-project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .admin-project p {
+    max-width: 230px;
+  }
+  .admin-thumb {
+    width: 100px;
+    height: 100px;
+  }
+}

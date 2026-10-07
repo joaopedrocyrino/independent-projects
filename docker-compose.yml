@@ -1,0 +1,53 @@
+name: projects
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-projects}
+      POSTGRES_DB: ${POSTGRES_DB:-projects}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run python3 scripts/init-env.py}
+    ports: ["127.0.0.1:${POSTGRES_PORT:-5545}:5432"]
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  migrate:
+    profiles: [tools]
+    build: .
+    image: ${APP_IMAGE:-projects:local}
+    command: [--migrate]
+    environment: &app-env
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Database: Host=postgres;Database=${POSTGRES_DB:-projects};Username=${POSTGRES_USER:-projects};Password=${POSTGRES_PASSWORD:?Generate .env}
+      Admin__Email: ${ADMIN_EMAIL:?Generate .env}
+      Admin__Password: ${ADMIN_PASSWORD:?Generate .env}
+      Storage__Path: /var/lib/projects/media
+      DataProtection__Path: /var/lib/projects/keys
+    volumes: &app-volumes [media_data:/var/lib/projects/media, protection_keys:/var/lib/projects/keys]
+    depends_on:
+      postgres: {condition: service_healthy}
+  seed:
+    profiles: [tools]
+    image: ${APP_IMAGE:-projects:local}
+    build: .
+    command: [--seed-demo]
+    environment: *app-env
+    volumes: *app-volumes
+    depends_on:
+      postgres: {condition: service_healthy}
+  app:
+    profiles: [app]
+    image: ${APP_IMAGE:-projects:local}
+    build: .
+    ports: ["127.0.0.1:${API_PORT:-5191}:8080"]
+    environment: *app-env
+    volumes: *app-volumes
+    depends_on:
+      postgres: {condition: service_healthy}
+    restart: unless-stopped
+volumes:
+  postgres_data:
+  media_data:
+  protection_keys:
